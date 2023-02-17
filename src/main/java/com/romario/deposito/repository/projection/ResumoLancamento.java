@@ -1,30 +1,31 @@
 package com.romario.deposito.repository.projection;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class ResumoLancamento {
 
 	private Long codigo;
 	private String descricao;
-	private String pessoa;
-	private String produto;
+	private LocalDate data_pagamento;
+	private LocalDate data_fiado;
 	private String valor;
-	private Date data_Fiado;
-	private LocalDate data_Pagamento;
 	private boolean pago = false;
+	private String produto;
+	private String pessoa;
 
-	public ResumoLancamento(Long codigo, String descricao, String pessoa, String produto, String valor, Date data_Fiado,
-			LocalDate data_Pagamento, boolean pago) {
+	
+
+	public ResumoLancamento(Long codigo, String descricao, LocalDate data_pagamento, LocalDate data_fiado, String valor,
+			boolean pago, String produto, String pessoa) {
 		super();
 		this.codigo = codigo;
 		this.descricao = descricao;
-		this.pessoa = pessoa;
-		this.produto = produto;
+		this.data_pagamento = data_pagamento;
+		this.data_fiado = data_fiado;
 		this.valor = valor;
-		this.data_Fiado = data_Fiado;
-		this.data_Pagamento = data_Pagamento;
 		this.pago = pago;
+		this.produto = produto;
+		this.pessoa = pessoa;
 	}
 
 	public Long getCodigo() {
@@ -67,20 +68,20 @@ public class ResumoLancamento {
 		this.valor = valor;
 	}
 
-	public Date getData_Fiado() {
-		return data_Fiado;
+	public LocalDate getData_pagamento() {
+		return data_pagamento;
 	}
 
-	public void setData_Fiado(Date data_Fiado) {
-		this.data_Fiado = data_Fiado;
+	public void setData_pagamento(LocalDate data_pagamento) {
+		this.data_pagamento = data_pagamento;
 	}
 
-	public LocalDate getData_Pagamento() {
-		return data_Pagamento;
+	public LocalDate getData_fiado() {
+		return data_fiado;
 	}
 
-	public void setData_Pagamento(LocalDate data_Pagamento) {
-		this.data_Pagamento = data_Pagamento;
+	public void setData_fiado(LocalDate data_fiado) {
+		this.data_fiado = data_fiado;
 	}
 
 	public boolean isPago() {
@@ -90,5 +91,6 @@ public class ResumoLancamento {
 	public void setPago(boolean pago) {
 		this.pago = pago;
 	}
+	
 
 }

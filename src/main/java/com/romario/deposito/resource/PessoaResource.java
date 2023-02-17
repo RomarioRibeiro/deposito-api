@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,11 +25,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.romario.deposito.modelo.Pessoa;
 import com.romario.deposito.repository.PessoaRepository;
+import com.romario.deposito.repository.filter.PessoaFilter;
+import com.romario.deposito.repository.projection.ResumoPessoa;
 import com.romario.deposito.service.PessoaService;
 
 @RestController
 @RequestMapping("/pessoas")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:4200/")
 public class PessoaResource {
 	
 	@Autowired
@@ -36,10 +40,21 @@ public class PessoaResource {
 	@Autowired
 	private PessoaService pessoaService;
 	
+	
 	@GetMapping
-	public List<Pessoa> listar() {
+	public List<Pessoa> lista(){
 		return pessoaRepository.findAll();
 	}
+	
+	@GetMapping(params = "resumo")
+	public Page<ResumoPessoa> resumir(PessoaFilter pessoaFilter, Pageable pageable){
+		return pessoaRepository.resumo(pessoaFilter, pageable);
+	}
+	
+//	@GetMapping
+//	public Page<Pessoa> pesquisar(PessoaFilter pessaFilter, Pageable pageable){
+//		return pessoaRepository.filter(pessaFilter, pageable);
+//	}
 	
 	@GetMapping("/{codigo}")
 	public ResponseEntity<Pessoa> buscarPorCodigo(@PathVariable Long codigo) {

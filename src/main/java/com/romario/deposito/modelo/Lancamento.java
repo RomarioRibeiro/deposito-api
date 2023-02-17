@@ -1,7 +1,6 @@
 package com.romario.deposito.modelo;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,45 +11,33 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Entity
 @Table(name = "lancamento")
 public class Lancamento {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
+	
 	private String descricao;
+	
 	@ManyToOne
 	@JoinColumn(name = "codigo_pessoa")
 	private Pessoa pessoa;
+	
 	@ManyToOne
 	@JoinColumn(name = "codigo_produto")
 	private Produto produto;
+	
 	private String valor;
+	
 	@Column(name = "data_fiado")
-	@JsonFormat(pattern =  "dd/MM/yyyy")
-	private Date data_fiado = new Date() ;
+	private LocalDate data_fiado;
+	
 	@Column(name = "data_pagamento")
-	@JsonFormat(pattern =  "dd/MM/yyyy")
 	private LocalDate data_pagamento;
+	
 	private boolean pago = false;
-
-	public Lancamento() {}
-
-	public Lancamento(Long codigo, String descricao, Pessoa pessoa, Produto produto, String valor, Date data_fiado,
-			LocalDate data_pagamento, boolean pago) {
-		super();
-		this.codigo = codigo;
-		this.descricao = descricao;
-		this.pessoa = pessoa;
-		this.produto = produto;
-		this.valor = valor;
-		this.data_fiado = data_fiado;
-		this.data_pagamento = data_pagamento;
-		this.pago = pago;
-	}
 
 	public Long getCodigo() {
 		return codigo;
@@ -69,7 +56,7 @@ public class Lancamento {
 	}
 
 	public Pessoa getPessoa() {
-		return pessoa ;
+		return pessoa;
 	}
 
 	public void setPessoa(Pessoa pessoa) {
@@ -92,12 +79,11 @@ public class Lancamento {
 		this.valor = valor;
 	}
 
-		
-	public Date getData_fiado() {
+	public LocalDate getData_fiado() {
 		return data_fiado;
 	}
 
-	public void setData_fiado(Date data_fiado) {
+	public void setData_fiado(LocalDate data_fiado) {
 		this.data_fiado = data_fiado;
 	}
 

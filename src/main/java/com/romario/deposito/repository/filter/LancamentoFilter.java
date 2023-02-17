@@ -2,18 +2,32 @@ package com.romario.deposito.repository.filter;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.romario.deposito.modelo.Pessoa;
 
 public class LancamentoFilter {
 
 	private String descricao;
+	
+	private String nome;
+	
 	private String valor;
 	
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate data_pagamentoAte;
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate data_pagamentoDe;
 	private boolean pago = false;
+
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 	public String getDescricao() {
 		return descricao;

@@ -53,8 +53,12 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 				root.get(Lancamento_.valor), root.get(Lancamento_.pago),
 				root.get(Lancamento_.produto).get(Produto_.descricao), root.get(Lancamento_.pessoa).get(Pessoa_.nome)));
 
+		Predicate[] predicates = criarRestricoes(lancamentoFilter, criteriaBuilder, root);
+		criteria.where(predicates);
+		
 		TypedQuery<ResumoLancamento> query = entityManager.createQuery(criteria);
 		adicionarRegistracoesDePaginacao(query, pageable);
+		
 
 		return new PageImpl<>(query.getResultList(), pageable, total(lancamentoFilter));
 	}
@@ -86,9 +90,15 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 
 		List<Predicate> pridicates = new ArrayList<>();
 
-		if (!ObjectUtils.isEmpty(lancamentoFilter.getDescricao())) {
-			pridicates.add(builder.like(builder.lower(root.get(Lancamento_.descricao)),
-					"%" + lancamentoFilter.getDescricao().toLowerCase() + "%"));
+		if(!ObjectUtils.isEmpty(lancamentoFilter.getNome())) {
+			pridicates.add(builder.like(
+					builder.lower(root.get(Lancamento_.pessoa).get(Pessoa_.nome )), "%" + lancamentoFilter.getNome() + "%"));
+		}
+		
+		
+		if(!ObjectUtils.isEmpty(lancamentoFilter.getDescricao())) {
+			pridicates.add(builder.like(
+					builder.lower(root.get(Lancamento_.descricao)), "%" + lancamentoFilter.getDescricao().toLowerCase() + "%"));
 		}
 		if (lancamentoFilter.getData_pagamentoDe() != null) {
 			pridicates.add(builder.greaterThanOrEqualTo(root.get(Lancamento_.data_pagamento),

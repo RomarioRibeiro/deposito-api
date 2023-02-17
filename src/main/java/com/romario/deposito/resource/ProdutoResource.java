@@ -27,7 +27,7 @@ import com.romario.deposito.service.ProdutoService;
 
 @RestController
 @RequestMapping("/produtos")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:4200/")
 public class ProdutoResource {
 	
 	@Autowired

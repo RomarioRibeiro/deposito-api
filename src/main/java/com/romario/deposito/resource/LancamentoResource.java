@@ -1,12 +1,13 @@
 package com.romario.deposito.resource;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,11 +24,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.romario.deposito.modelo.Lancamento;
 import com.romario.deposito.repository.LancamentoRepository;
+import com.romario.deposito.repository.filter.LancamentoFilter;
+import com.romario.deposito.repository.projection.ResumoLancamento;
 import com.romario.deposito.service.LancamentoService;
 
 @RestController
 @RequestMapping("/lancamentos")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:4200/")
 public class LancamentoResource {
 
 	@Autowired
@@ -36,9 +39,16 @@ public class LancamentoResource {
 	@Autowired
 	private LancamentoService lancamentoService;
 	
+	
+	@GetMapping(params = "resumo")
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable){
+		return lancamentoRepository.resumo(lancamentoFilter, pageable);
+	}
+	
+	
 	@GetMapping
-	public List<Lancamento> listar(){
-		return lancamentoRepository.findAll();
+	public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable){
+		return lancamentoRepository.filter(lancamentoFilter, pageable);
 	}
 	
 	@GetMapping("/{codigo}")
